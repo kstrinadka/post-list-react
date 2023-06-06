@@ -2,8 +2,7 @@
 import "../src/styles/App.css"
 import {useState} from "react";
 import PostList from "./components/PostList";
-import MyButton from "./components/UI/button/MyButton";
-import MyInput from "./components/UI/input/MyInput";
+import PostForm from "./components/PostForm";
 
 
 function App() {
@@ -14,53 +13,32 @@ function App() {
         {id: 3, title: 'Javascript 3', body: 'Description 3'}
     ]);
 
-    const [post, setPost] = useState({
-        title: '',
-        body: ''
-    })
 
-
-    const addNewPost = (e) => {
-        e.preventDefault()          //чтобы не происходило обновление страницы
-        setPosts([...posts, {...post, id: Date.now()}])  // к старым постам добавляем новый
-        setPost({title: '', body: ''})
+    const createPost = (newPost) => {
+        setPosts([...posts, newPost])
     }
+
+    // Получаем post из дочернего компонента
+    const removePost = (post) => {
+        setPosts(posts.filter(p => p.id !== post.id))
+    }
+
+
+
 
     return (
         <div className="App">
 
-            <form>
+            <PostForm create={createPost}/>
 
+            {/*/условная отрисовка для случая, если постов нет/*/}
+            {posts.length !== 0
+                ? <PostList remove={removePost} posts={posts} title={"Посты про JS"}/>
+                : <div>
+                    <h1 style={{textAlign: 'center'}}>Посты не были найдены</h1>
+                  </div>
+            }
 
-
-                <MyInput
-                    value={post.title}
-
-                    //изменяем нужное поле, а остальной объект оставляем в неизменном виде
-                    onChange={e => setPost({
-                        ...post,
-                        title: e.target.value
-                    })}
-                    type="text"
-                    placeholder="Навание поста"
-                />
-                {/*<input ref={bodyInputRef}/>*/}
-
-                {/*Неуправляемый (неконтролируемый) компонент*/}
-                <MyInput
-                    value={post.body}
-                    onChange={e => setPost({
-                        ...post,
-                        body: e.target.value
-                    })}
-                    type="text"
-                    placeholder="Описание поста"/>
-                <MyButton onClick={addNewPost}>Создать пост</MyButton>
-            </form>
-
-
-
-            <PostList posts={posts} title={"Посты про JS"}/>
 
 
         </div>

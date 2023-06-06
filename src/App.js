@@ -1,18 +1,14 @@
-import Counter from "./components/Counter";
-import ChangingHeader from "./components/ChangingHeader";
 
+import "../src/styles/App.css"
+import PostItem from "./components/PostItem";
 
 function App() {
 
 
-
-
-
     return (
         <div className="App">
-            Приложение работает!
-            <Counter/>
-            <ChangingHeader/>
+            
+            <PostItem post={{id: 1, title: 'Javascript', body: 'Description'}}/>
 
         </div>
 

@@ -14,22 +14,16 @@ function App() {
         {id: 3, title: 'Javascript 3', body: 'Description 3'}
     ]);
 
-
-    const [title, setTitle] = useState('')
-    const [body, setBody] = useState('')
+    const [post, setPost] = useState({
+        title: '',
+        body: ''
+    })
 
 
     const addNewPost = (e) => {
         e.preventDefault()          //чтобы не происходило обновление страницы
-        const newPost = {
-            id: Date.now(),
-            title,
-            body
-        }
-        console.log(newPost)
-        setPosts([...posts, newPost])  // к старым постам добавляем новый
-        setTitle('')    // для обнуления поля ввода
-        setBody('')
+        setPosts([...posts, {...post, id: Date.now()}])  // к старым постам добавляем новый
+        setPost({title: '', body: ''})
     }
 
     return (
@@ -40,8 +34,13 @@ function App() {
 
 
                 <MyInput
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    value={post.title}
+
+                    //изменяем нужное поле, а остальной объект оставляем в неизменном виде
+                    onChange={e => setPost({
+                        ...post,
+                        title: e.target.value
+                    })}
                     type="text"
                     placeholder="Навание поста"
                 />
@@ -49,8 +48,11 @@ function App() {
 
                 {/*Неуправляемый (неконтролируемый) компонент*/}
                 <MyInput
-                    value={body}
-                    onChange={e => setBody(e.target.value)}
+                    value={post.body}
+                    onChange={e => setPost({
+                        ...post,
+                        body: e.target.value
+                    })}
                     type="text"
                     placeholder="Описание поста"/>
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>

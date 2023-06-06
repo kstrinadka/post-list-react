@@ -1,9 +1,10 @@
 
 import "../src/styles/App.css"
-import {useRef, useState} from "react";
+import {useState} from "react";
 import PostList from "./components/PostList";
 import MyButton from "./components/UI/button/MyButton";
 import MyInput from "./components/UI/input/MyInput";
+
 
 function App() {
 
@@ -15,15 +16,18 @@ function App() {
 
 
     const [title, setTitle] = useState('')
+    const [body, setBody] = useState('')
 
-    //  хук, с помощью которого можно напрямую к DOM обратиться
-    // и прочитать там value
-    const bodyInputRef = useRef();
 
     const addNewPost = (e) => {
-        e.preventDefault()
-        console.log(title)
-        console.log(bodyInputRef.current) //в консоль выводится DOM элемент
+        e.preventDefault()          //чтобы не происходило обновление страницы
+        const newPost = {
+            id: Date.now(),
+            title,
+            body
+        }
+        console.log(newPost)
+        setPosts([...posts, newPost])  // к старым постам добавляем новый
     }
 
     return (
@@ -43,7 +47,8 @@ function App() {
 
                 {/*Неуправляемый (неконтролируемый) компонент*/}
                 <MyInput
-                    ref={bodyInputRef}
+                    value={body}
+                    onChange={e => setBody(e.target.value)}
                     type="text"
                     placeholder="Описание поста"/>
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>

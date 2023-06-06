@@ -1,5 +1,6 @@
 import {useState} from "react";
 import Counter from "./components/Counter";
+import ClassCounter from "./components/ClassCounter";
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         <div className="App">
             Приложение работает!
             <Counter/>
-            <Counter/>
+            <ClassCounter/>
 
             <div>
                 <h1>{value}</h1>

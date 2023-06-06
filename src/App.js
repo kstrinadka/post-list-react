@@ -28,6 +28,8 @@ function App() {
         }
         console.log(newPost)
         setPosts([...posts, newPost])  // к старым постам добавляем новый
+        setTitle('')    // для обнуления поля ввода
+        setBody('')
     }
 
     return (

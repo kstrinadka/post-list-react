@@ -30,7 +30,7 @@ const PostForm = ({create}) => {
                         title: e.target.value
                     })}
                     type="text"
-                    placeholder="Навание поста"
+                    placeholder="Название поста"
                 />
                 <MyInput
                     value={post.body}
@@ -42,6 +42,7 @@ const PostForm = ({create}) => {
                     placeholder="Описание поста"/>
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>
             </form>
+            <br/>
         </div>
     );
 };

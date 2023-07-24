@@ -1,13 +1,13 @@
 
 import "../src/styles/App.css"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
 import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
-import axios from "axios";
+import PostService from "./API/PostService";
 
 
 function App() {
@@ -22,6 +22,10 @@ function App() {
     const [modal, setModal] = useState(false)
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.querySearch)
 
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
     // добавление нового элемента к массиву
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -34,9 +38,12 @@ function App() {
     }
 
     async function fetchPosts() {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-        // console.log(response.data)
-        setPosts(response.data)
+        try {
+            const posts = await PostService.getAll();
+            setPosts(posts);
+        } catch (error) {
+            console.error('Error while fetching posts:', error);
+        }
     }
 
     return (

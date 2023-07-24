@@ -2,11 +2,9 @@ import {useMemo} from "react";
 
 
 export const usePosts = (posts, sort, query) => {
-	console.log("Вызвался кастомный хук сортировки и поиска постов")
 	const sortedPosts = useSortedPosts(posts, sort)
 	return useSortedAndSearchedPosts(sortedPosts, query)
 }
-
 
 /**
  * Хук для сортировки постов
@@ -15,7 +13,6 @@ export const usePosts = (posts, sort, query) => {
  */
 export const useSortedPosts = (posts, sort) => {
 	return useMemo(() => {
-		console.log("отработала функция getSortedPosts")
 		if (sort) {
 			return [...posts.sort((a, b) => a[sort].localeCompare(b[sort]))]
 		}

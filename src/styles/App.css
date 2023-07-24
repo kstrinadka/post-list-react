@@ -27,12 +27,30 @@
     justify-content: space-between;
     align-items: center;
 }
- 
+
 .post-exit-active{
     animation: fade-out 500ms forwards ;
 }
 .post-enter-active{
     animation: fade-in 500ms forwards;
+}
+
+.page__wrapper {
+    margin-top: 30px;
+    display: flex;
+}
+
+
+
+.page {
+    padding: 10px;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.page__current {
+    border: 2px solid orange;
+    font-weight: bold;
 }
 
 @keyframes fade-in {

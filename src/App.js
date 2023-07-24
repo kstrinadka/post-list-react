@@ -8,6 +8,7 @@ import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
 import PostService from "./API/PostService";
+import Loader from "./components/UI/Loader/Loader";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
     const [filter, setFilter] = useState({sort: '', querySearch: ''})
     const [modal, setModal] = useState(false)
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.querySearch)
+    const [isPostsLoading, setIsPostsLoading] = useState(false)
 
     useEffect(() => {
         fetchPosts()
@@ -38,12 +40,17 @@ function App() {
     }
 
     async function fetchPosts() {
-        try {
-            const posts = await PostService.getAll();
-            setPosts(posts);
-        } catch (error) {
-            console.error('Error while fetching posts:', error);
-        }
+        setIsPostsLoading(true)
+        setTimeout(async () => {
+            try {
+                const posts = await PostService.getAll();
+                setPosts(posts);
+                setIsPostsLoading(false)
+            } catch (error) {
+                console.error('Error while fetching posts:', error);
+            }
+        }, 1000)
+
     }
 
     return (
@@ -66,7 +73,11 @@ function App() {
                 setFilter={setFilter}
             />
 
-            <PostList remove={removePost} posts={sortedAndSearchedPosts} title={"Посты про JS"}/>
+            {/*Если посты еще не загружены, то отобразим, что они грузятся. Загружены => отображаем посты*/}
+            {isPostsLoading
+                ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
+                : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={"Посты про JS"}/>
+            }
 
         </div>
 

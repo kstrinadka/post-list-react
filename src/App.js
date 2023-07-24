@@ -28,6 +28,7 @@ function App() {
         return posts
     }, [filter.sort, posts])
 
+    // оставляем посты только с подходящим названием
     const sortedAndSearchedPosts = useMemo(() => {
         return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.querySearch))
     }, [filter.querySearch, sortedPosts])
@@ -50,6 +51,7 @@ function App() {
             <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
                 Создать пост
             </MyButton>
+
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm create={createPost}/>
             </MyModal>

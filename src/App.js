@@ -7,6 +7,7 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
+import axios from "axios";
 
 
 function App() {
@@ -32,9 +33,16 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id))
     }
 
+    async function fetchPosts() {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+        // console.log(response.data)
+        setPosts(response.data)
+    }
 
     return (
         <div className="App">
+
+            <button onClick={fetchPosts}>GET POSTS</button>
 
             <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
                 Создать пост
